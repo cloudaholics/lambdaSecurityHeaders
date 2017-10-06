@@ -1,4 +1,3 @@
-
 'use strict';
 
 exports.handler = (event, context, callback) => {
@@ -6,7 +5,7 @@ exports.handler = (event, context, callback) => {
    const headers = response.headers;
    const secHeaders = [{
      "key":"Strict-Transport-Security",
-     "Value":"max-age=86400; includeSubDomains"
+     "value":"max-age=86400; includeSubDomains"
    },
  {
    "key":"X-Frame-Options","value":"sameorigin"
@@ -17,16 +16,11 @@ exports.handler = (event, context, callback) => {
    "key":"X-Content-Type-Options","value": "nosniff"
  }
 ];
-for (i=0,i<secHeaders.length;i++){
-  if(headers[secHeaders[i].Key.toLowerCase()]){
-    headers[secHeaders[i].Key.toLowerCase()] = [
-       secHeaders[i]
-    ];
-  }else{
-    headers[secHeaders[i].Key.toLowerCase()]=secHeaders[i];
-  }
+secHeaders.forEach(function(header) {
+    console.log(header)
+    headers[header.key.toLowerCase()]=[header]
+});
 
-}
 
    callback(null, response);
 };
